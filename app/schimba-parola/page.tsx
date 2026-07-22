@@ -5,7 +5,6 @@ import { ChangePasswordForm } from "./ChangePasswordForm";
 export default async function ChangePasswordPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  if (user.role !== "USER") redirect("/");
 
   return (
     <main className="content">
