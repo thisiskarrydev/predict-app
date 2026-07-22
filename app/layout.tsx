@@ -1,0 +1,45 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { KeyRound, Trophy } from "lucide-react";
+import "./globals.css";
+import { getCurrentUser } from "@/lib/auth";
+import { logoutAction } from "./actions";
+
+export const metadata: Metadata = {
+  title: "Predictii cu baietii",
+  description: "Predictii private pentru meciurile Romaniei"
+};
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const user = await getCurrentUser();
+
+  return (
+    <html lang="ro">
+      <body>
+        <div className="shell">
+          {user ? (
+            <header className="topbar">
+              <Link className="brand" href="/">
+                <Trophy size={24} />
+                Predictii cu baietii
+              </Link>
+              <nav className="nav">
+                {user.role === "ADMIN" ? <Link href="/admin">Admin</Link> : null}
+                {user.role === "USER" ? (
+                  <Link href="/schimba-parola">
+                    <KeyRound size={16} />
+                    Schimba user sau parola
+                  </Link>
+                ) : null}
+                <form action={logoutAction}>
+                  <button type="submit">Iesire</button>
+                </form>
+              </nav>
+            </header>
+          ) : null}
+          {children}
+        </div>
+      </body>
+    </html>
+  );
+}

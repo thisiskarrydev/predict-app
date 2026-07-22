@@ -1,0 +1,9 @@
+.env
+.env*.local
+.next
+.next-dev
+.next-build
+node_modules
+dev.db
+dev.db-journal
+dist
