@@ -498,11 +498,13 @@ select {
 
 .prediction-status {
   color: var(--ink);
-  font-size: 0.86rem;
+  font-size: 1rem;
+  line-height: 1.1;
   min-width: 0;
 }
 
 .prediction-status strong {
+  font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -512,8 +514,8 @@ select {
   border-radius: 50%;
   display: inline-flex;
   flex: 0 0 auto;
-  height: 18px;
-  width: 18px;
+  height: 22px;
+  width: 22px;
   align-items: center;
   justify-content: center;
 }
@@ -567,6 +569,21 @@ select {
   align-items: center;
   flex-wrap: nowrap;
   gap: 6px;
+}
+
+.edit-prediction {
+  align-items: flex-end;
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+}
+
+.edit-prediction summary {
+  list-style: none;
+}
+
+.edit-prediction summary::-webkit-details-marker {
+  display: none;
 }
 
 .secondary-button {
@@ -793,6 +810,31 @@ select {
   padding: 8px 5px;
 }
 
+.prediction-pill {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.74rem;
+  font-weight: 850;
+  justify-content: center;
+  min-width: 48px;
+  padding: 3px 8px;
+}
+
+.prediction-pill-set {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.prediction-pill-missing {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.prediction-pill-muted {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
 .login {
   margin: 60px auto;
   max-width: 420px;
@@ -881,6 +923,7 @@ select {
 
   .prediction-status {
     order: 3;
+    grid-column: 1 / -1;
   }
 
   .match-action {
@@ -916,6 +959,7 @@ select {
   }
 
   .prediction-status {
+    grid-column: auto;
     order: initial;
   }
 

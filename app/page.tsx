@@ -64,11 +64,18 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
     : competitions.includes(defaultLeaderboardCompetition)
       ? defaultLeaderboardCompetition
       : competitions[0];
+  const now = new Date();
+  const nextLeaderboardMatch = selectedCompetition
+    ? matches.find((match) => match.competition === selectedCompetition && match.kickoffAt > now)
+    : null;
   const leaderboard = selectedCompetition
     ? leaderboardUsers
         .map((entry) => ({
           id: entry.id,
           name: entry.name,
+          hasNextPrediction: nextLeaderboardMatch
+            ? entry.predictions.some((prediction) => prediction.matchId === nextLeaderboardMatch.id)
+            : null,
           points: entry.predictions.reduce((sum, prediction) => {
             if (prediction.match.competition !== selectedCompetition) return sum;
             return sum + pointsForPrediction(prediction.match, prediction);
@@ -144,7 +151,7 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                     </span>
                     <strong>
                       {prediction
-                        ? `${locked ? "Blocata" : "Setata"}: ${prediction.homeGoals}-${prediction.awayGoals}${locked ? ` · ${points}p` : ""}`
+                        ? `${locked ? "Blocat" : "Setat"}: ${prediction.homeGoals}-${prediction.awayGoals}${locked ? ` · ${points}p` : ""}`
                         : "Fara predictie"}
                     </strong>
                   </div>
@@ -160,6 +167,43 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                           rows={predictionRows}
                         />
                       </div>
+                    ) : prediction ? (
+                      <details className="edit-prediction">
+                        <summary className="button compact-button secondary-button">Modifica</summary>
+                        <form className="prediction-form compact-pick" action={savePredictionAction}>
+                          <input type="hidden" name="matchId" value={match.id} />
+                          <label className="visually-hidden" htmlFor={`home-${match.id}`}>
+                            {match.homeTeam}
+                          </label>
+                          <input
+                            className="score-input"
+                            id={`home-${match.id}`}
+                            name="homeGoals"
+                            type="number"
+                            min="0"
+                            max="30"
+                            defaultValue={prediction.homeGoals}
+                            required
+                          />
+                          <span className="score-separator">-</span>
+                          <label className="visually-hidden" htmlFor={`away-${match.id}`}>
+                            {match.awayTeam}
+                          </label>
+                          <input
+                            className="score-input"
+                            id={`away-${match.id}`}
+                            name="awayGoals"
+                            type="number"
+                            min="0"
+                            max="30"
+                            defaultValue={prediction.awayGoals}
+                            required
+                          />
+                          <button className="button compact-button" type="submit">
+                            <Save size={16} /> Salveaza
+                          </button>
+                        </form>
+                      </details>
                     ) : (
                       <form className="prediction-form compact-pick" action={savePredictionAction}>
                         <input type="hidden" name="matchId" value={match.id} />
@@ -173,7 +217,7 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                           type="number"
                           min="0"
                           max="30"
-                          defaultValue={prediction?.homeGoals ?? 1}
+                          defaultValue={1}
                           required
                         />
                         <span className="score-separator">-</span>
@@ -187,11 +231,11 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                           type="number"
                           min="0"
                           max="30"
-                          defaultValue={prediction?.awayGoals ?? 0}
+                          defaultValue={0}
                           required
                         />
                         <button className="button compact-button" type="submit">
-                          <Save size={16} /> {prediction ? "Salveaza" : "Seteaza"}
+                          <Save size={16} /> Seteaza
                         </button>
                       </form>
                     )}
@@ -229,6 +273,7 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                     <tr>
                       <th>#</th>
                       <th>Baiat</th>
+                      <th>Urmatorul</th>
                       <th>Pct</th>
                     </tr>
                   </thead>
@@ -237,6 +282,15 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                       <tr key={entry.id}>
                         <td>{index + 1}</td>
                         <td>{entry.name}</td>
+                        <td>
+                          {entry.hasNextPrediction === null ? (
+                            <span className="prediction-pill prediction-pill-muted">-</span>
+                          ) : entry.hasNextPrediction ? (
+                            <span className="prediction-pill prediction-pill-set">Pus</span>
+                          ) : (
+                            <span className="prediction-pill prediction-pill-missing">Lipsa</span>
+                          )}
+                        </td>
                         <td>{entry.points}</td>
                       </tr>
                     ))}
