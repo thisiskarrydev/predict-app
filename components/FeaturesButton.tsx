@@ -28,9 +28,9 @@ export function FeaturesButton() {
                 </button>
               </div>
               <div className="feature-list">
-                <p>Predictiile se pot seta si modifica pana la ora de start a meciului.</p>
-                <p>Exact la kickoff, predictiile se blocheaza permanent.</p>
-                <p>Dupa ce meciul este blocat, apare butonul Vezi predictii si poti vedea predictiile tuturor.</p>
+                <p>Pronosticurile se pot seta si modifica pana la ora de start a meciului.</p>
+                <p>Exact la kickoff, pronosticurile se blocheaza permanent.</p>
+                <p>Dupa ce meciul este blocat, apare butonul Vezi pronosticuri si poti vedea pronosticurile tuturor.</p>
                 <p>Adminul introduce scorul final in panoul de admin si marcheaza meciul ca terminat.</p>
                 <p>Punctaj: scor corect 4p, diferenta de goluri + echipa castigatoare 3p, echipa castigatoare 2p, gresit 0p.</p>
                 <p>Clasamentul se calculeaza automat pe turneul activ selectat.</p>

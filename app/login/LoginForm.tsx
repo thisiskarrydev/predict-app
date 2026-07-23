@@ -20,8 +20,8 @@ export function LoginForm() {
   return (
     <form action={action} className="login stack">
       <div>
-        <h1>Predictii cu baietii</h1>
-        <p className="muted">Predictii private pentru meciurile Romaniei.</p>
+        <h1>Pronosticuri cu baietii</h1>
+        <p className="muted">Pronosticuri private pentru meciurile Romaniei.</p>
       </div>
       <div className="field">
         <label htmlFor="username">Nume de utilizator</label>

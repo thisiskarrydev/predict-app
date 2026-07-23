@@ -149,11 +149,11 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                     <span className={statusClass}>
                       {prediction ? (locked ? <Lock size={13} /> : <CheckCircle2 size={13} />) : null}
                     </span>
-                    <strong>
-                      {prediction
-                        ? `${locked ? "Blocat" : "Setat"}: ${prediction.homeGoals}-${prediction.awayGoals}${locked ? ` · ${points}p` : ""}`
-                        : "Fara predictie"}
-                    </strong>
+                    {prediction ? (
+                      <strong>
+                        {`${locked ? "Blocat" : "Setat"}: ${prediction.homeGoals}-${prediction.awayGoals}${locked ? ` · ${points}p` : ""}`}
+                      </strong>
+                    ) : null}
                   </div>
 
                   <div className="match-action">

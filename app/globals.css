@@ -292,14 +292,14 @@ select {
 .content {
   margin: 0 auto;
   max-width: 1180px;
-  padding: 24px clamp(16px, 4vw, 48px) 56px;
+  padding: 6px clamp(16px, 4vw, 48px) 56px;
 }
 
 .grid {
   display: grid;
   gap: 20px;
   grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.65fr);
-  margin-top: 20px;
+  margin-top: 6px;
 }
 
 .panel,
@@ -501,6 +501,10 @@ select {
   font-size: 1rem;
   line-height: 1.1;
   min-width: 0;
+}
+
+.prediction-status:has(.marker-empty) {
+  min-width: auto;
 }
 
 .prediction-status strong {

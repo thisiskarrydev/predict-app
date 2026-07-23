@@ -21,7 +21,7 @@ export function PredictionsModal({
   return (
     <>
       <button className="button compact-button secondary-button" type="button" onClick={() => setOpen(true)}>
-        <Eye size={16} /> Vezi predictii
+        <Eye size={16} /> Vezi pronosticuri
       </button>
       {open ? (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setOpen(false)}>
@@ -34,7 +34,7 @@ export function PredictionsModal({
           >
             <div className="modal-head">
               <div>
-                <h2 id="predictions-title">Predictii</h2>
+                <h2 id="predictions-title">Pronosticuri</h2>
                 <p className="muted">{matchLabel}</p>
               </div>
               <button className="icon-button" type="button" onClick={() => setOpen(false)} aria-label="Inchide">
@@ -45,7 +45,7 @@ export function PredictionsModal({
               <thead>
                 <tr>
                   <th>Baiat</th>
-                  <th>Predictie</th>
+                  <th>Pronostic</th>
                   <th>Pct</th>
                 </tr>
               </thead>
@@ -53,7 +53,7 @@ export function PredictionsModal({
                 {rows.map((row) => (
                   <tr key={row.name}>
                     <td>{row.name}</td>
-                    <td>{row.prediction ?? "Fara predictie"}</td>
+                    <td>{row.prediction ?? "Fara pronostic"}</td>
                     <td>{row.points ?? "-"}</td>
                   </tr>
                 ))}

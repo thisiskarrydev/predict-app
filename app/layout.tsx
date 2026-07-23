@@ -7,8 +7,8 @@ import { FeaturesButton } from "@/components/FeaturesButton";
 import { logoutAction } from "./actions";
 
 export const metadata: Metadata = {
-  title: "Predictii cu baietii",
-  description: "Predictii private pentru meciurile Romaniei"
+  title: "Pronosticuri cu baietii",
+  description: "Pronosticuri private pentru meciurile Romaniei"
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <header className="topbar">
               <Link className="brand" href="/">
                 <Trophy size={24} />
-                Predictii cu baietii
+                Pronosticuri cu baietii
               </Link>
               <nav className="nav">
                 <span className="user-greeting">Salut, {user.name || user.username}</span>
