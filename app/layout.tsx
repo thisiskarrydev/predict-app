@@ -3,6 +3,7 @@ import Link from "next/link";
 import { KeyRound, Trophy } from "lucide-react";
 import "./globals.css";
 import { getCurrentUser } from "@/lib/auth";
+import { FeaturesButton } from "@/components/FeaturesButton";
 import { logoutAction } from "./actions";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </Link>
               <nav className="nav">
                 {user.role === "ADMIN" ? <Link href="/admin">Admin</Link> : null}
+                <FeaturesButton />
                 <Link href="/schimba-parola">
                   <KeyRound size={16} />
                   Schimba user sau parola

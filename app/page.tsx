@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { pointsForPrediction } from "@/lib/scoring";
 import { savePredictionAction } from "./actions";
+import { PredictionsModal } from "./PredictionsModal";
 
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("ro-RO", {
@@ -51,7 +52,7 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
     ? await prisma.match.findMany({
         where: { competition: { in: activeCompetitionNames } },
         orderBy: { kickoffAt: "asc" },
-        include: { predictions: true }
+        include: { predictions: { include: { user: true } } }
       })
     : [];
 
@@ -105,6 +106,17 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
                   : null;
               const homeTeam = teamDisplay(match.homeTeam);
               const awayTeam = teamDisplay(match.awayTeam);
+              const predictionRows = leaderboardUsers.map((entry) => {
+                const userPrediction = match.predictions.find((item) => item.userId === entry.id);
+                return {
+                  name: entry.name,
+                  prediction: userPrediction ? `${userPrediction.homeGoals}-${userPrediction.awayGoals}` : null,
+                  points:
+                    userPrediction && match.status === "FINISHED"
+                      ? pointsForPrediction(match, userPrediction)
+                      : null
+                };
+              });
 
               return (
                 <article className="match" key={match.id}>
@@ -139,9 +151,15 @@ export default async function HomePage({ searchParams }: { searchParams?: { comp
 
                   <div className="match-action">
                     {locked ? (
-                      <span className={`badge ${result ? "badge-score" : "badge-locked"}`}>
-                        {result ?? "Blocat"}
-                      </span>
+                      <div className="locked-actions">
+                        <span className={`badge ${result ? "badge-score" : "badge-locked"}`}>
+                          {result ?? "Blocat"}
+                        </span>
+                        <PredictionsModal
+                          matchLabel={`${match.homeTeam} vs ${match.awayTeam}`}
+                          rows={predictionRows}
+                        />
+                      </div>
                     ) : (
                       <form className="prediction-form compact-pick" action={savePredictionAction}>
                         <input type="hidden" name="matchId" value={match.id} />
