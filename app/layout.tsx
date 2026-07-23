@@ -27,11 +27,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <nav className="nav">
                 <span className="user-greeting">Salut, {user.name || user.username}</span>
                 {user.role === "ADMIN" ? <Link href="/admin">Admin</Link> : null}
-                <FeaturesButton />
                 <Link href="/schimba-parola">
                   <KeyRound size={16} />
-                  Schimba user sau parola
+                  Schimba nume/parola
                 </Link>
+                <FeaturesButton />
                 <form action={logoutAction}>
                   <button type="submit">Iesire</button>
                 </form>
