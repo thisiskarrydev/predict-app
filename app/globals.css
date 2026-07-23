@@ -45,7 +45,8 @@ select {
   border-bottom: 1px solid var(--line);
   color: var(--ink);
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px 20px;
   justify-content: space-between;
   padding: 12px clamp(16px, 4vw, 48px);
   position: sticky;
@@ -64,6 +65,7 @@ select {
 
 .brand {
   color: #0b172a;
+  flex: 0 0 auto;
   font-weight: 800;
   gap: 10px;
   letter-spacing: 0;
@@ -71,8 +73,23 @@ select {
 
 .nav {
   align-items: center;
+  display: flex;
+  flex: 1 1 auto;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.user-greeting {
+  color: var(--muted);
+  flex: 0 1 auto;
+  font-size: 0.94rem;
+  font-weight: 750;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav a,
@@ -91,6 +108,7 @@ select {
   justify-content: center;
   min-height: 38px;
   padding: 0 13px;
+  white-space: nowrap;
   transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, transform 140ms ease;
 }
 
@@ -805,6 +823,32 @@ select {
 
   .admin-match-actions {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    align-items: flex-start;
+  }
+
+  .brand {
+    width: 100%;
+  }
+
+  .nav {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .nav a,
+  .nav button {
+    flex: 1 1 170px;
+    min-width: 0;
+  }
+
+  .user-greeting {
+    flex: 1 0 100%;
+    max-width: 100%;
   }
 }
 

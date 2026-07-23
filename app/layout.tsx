@@ -25,6 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 Predictii cu baietii
               </Link>
               <nav className="nav">
+                <span className="user-greeting">Salut, {user.name || user.username}</span>
                 {user.role === "ADMIN" ? <Link href="/admin">Admin</Link> : null}
                 <FeaturesButton />
                 <Link href="/schimba-parola">
