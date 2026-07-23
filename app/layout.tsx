@@ -29,7 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {user.role === "ADMIN" ? <Link href="/admin">Admin</Link> : null}
                 <Link href="/schimba-parola">
                   <KeyRound size={16} />
-                  Schimba nume/parola
+                  Schimba cont
                 </Link>
                 <FeaturesButton />
                 <form action={logoutAction}>

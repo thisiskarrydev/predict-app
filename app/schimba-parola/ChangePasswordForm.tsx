@@ -20,13 +20,23 @@ export function ChangePasswordForm() {
   return (
     <form action={action} className="login stack">
       <div>
-        <h1>Schimba nume afisat sau parola</h1>
-        <p className="muted">Username-ul de login ramane acelasi. Completeaza doar sectiunea pe care vrei sa o modifici.</p>
+        <h1>Schimba contul</h1>
+        <p className="muted">Completeaza doar sectiunea pe care vrei sa o modifici.</p>
       </div>
       <section className="settings-section">
         <div>
+          <h2>Username de login</h2>
+          <p className="muted">Asta este userul cu care intri in aplicatie. Poate contine litere, cifre, _ sau -.</p>
+        </div>
+        <div className="field">
+          <label htmlFor="username">Username nou de login</label>
+          <input id="username" name="username" autoComplete="username" pattern="[A-Za-z0-9_-]+" minLength={2} maxLength={32} />
+        </div>
+      </section>
+      <section className="settings-section">
+        <div>
           <h2>Nume afisat</h2>
-          <p className="muted">Asta apare in clasament si in salutul din header. Nu schimba username-ul folosit la login.</p>
+          <p className="muted">Asta apare in clasament si in salutul din header. Nu afecteaza login-ul.</p>
         </div>
         <div className="field">
           <label htmlFor="name">Nume afisat nou</label>
@@ -36,7 +46,7 @@ export function ChangePasswordForm() {
       <section className="settings-section">
         <div>
           <h2>Parola</h2>
-          <p className="muted">Poti schimba parola fara sa completezi numele afisat.</p>
+          <p className="muted">Poti schimba parola fara sa completezi numele afisat sau username-ul de login.</p>
         </div>
         <div className="field">
           <label htmlFor="password">Parola noua</label>

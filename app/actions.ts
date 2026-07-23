@@ -51,6 +51,7 @@ export async function updateAccountAction(_: unknown, formData: FormData) {
   const parsed = z
     .object({
       name: z.string().trim().optional(),
+      username: z.string().trim().optional(),
       password: z.string().optional(),
       confirmPassword: z.string().optional()
     })
@@ -59,9 +60,10 @@ export async function updateAccountAction(_: unknown, formData: FormData) {
   if (!parsed.success) return { ok: false, message: "Datele introduse nu sunt valide." };
 
   const name = parsed.data.name?.trim();
+  const username = parsed.data.username?.trim().toLowerCase();
   const password = parsed.data.password ?? "";
   const confirmPassword = parsed.data.confirmPassword ?? "";
-  const data: { name?: string; passwordHash?: string } = {};
+  const data: { name?: string; username?: string; passwordHash?: string } = {};
 
   if (name) {
     const validName = z.string().min(2).max(40).safeParse(name);
@@ -70,6 +72,20 @@ export async function updateAccountAction(_: unknown, formData: FormData) {
     }
 
     data.name = name;
+  }
+
+  if (username) {
+    const validUsername = z.string().min(2).max(32).regex(/^[a-zA-Z0-9_-]+$/).safeParse(username);
+    if (!validUsername.success) {
+      return { ok: false, message: "Username-ul de login poate contine doar litere, cifre, _ sau - si minim 2 caractere." };
+    }
+
+    const existingUser = await prisma.user.findUnique({ where: { username } });
+    if (existingUser && existingUser.id !== user.id) {
+      return { ok: false, message: "Username-ul de login este deja folosit." };
+    }
+
+    data.username = username;
   }
 
   if (password || confirmPassword) {
@@ -81,8 +97,8 @@ export async function updateAccountAction(_: unknown, formData: FormData) {
     data.passwordHash = await hashPassword(password);
   }
 
-  if (!data.name && !data.passwordHash) {
-    return { ok: false, message: "Completeaza un nume afisat nou sau o parola noua." };
+  if (!data.name && !data.username && !data.passwordHash) {
+    return { ok: false, message: "Completeaza un nume afisat nou, un username de login nou sau o parola noua." };
   }
 
   await prisma.user.update({
@@ -90,13 +106,13 @@ export async function updateAccountAction(_: unknown, formData: FormData) {
     data
   });
 
-  if (data.name && data.passwordHash) {
-    return { ok: true, message: "Numele afisat si parola au fost schimbate." };
-  }
-  if (data.name) {
-    return { ok: true, message: "Numele afisat a fost schimbat." };
-  }
-  return { ok: true, message: "Parola a fost schimbata." };
+  const changed = [
+    data.name ? "numele afisat" : null,
+    data.username ? "username-ul de login" : null,
+    data.passwordHash ? "parola" : null
+  ].filter(Boolean);
+
+  return { ok: true, message: `${changed.join(", ")} ${changed.length === 1 ? "a fost schimbat(a)" : "au fost schimbate"}.` };
 }
 
 export async function savePredictionAction(formData: FormData) {
